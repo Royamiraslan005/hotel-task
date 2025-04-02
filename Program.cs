@@ -30,11 +30,11 @@ while (true)
             if (newRoom != null)
             {
                 hotel.AddRoom(newRoom);
-                Console.WriteLine($"Room {newRoom.Id} added to the hotel!");
+                Console.WriteLine($"Otaq {newRoom.Id} hotele elave olundu!");
             }
             else
             {
-                Console.WriteLine("No room created yet!");
+                Console.WriteLine("Hec bir otaq yaradilmayib!");
             }
             break;
 
@@ -49,7 +49,7 @@ while (true)
             return;
 
         default:
-            Console.WriteLine("Invalid choice! Try again.");
+            Console.WriteLine("yeniden cehd ediniz.");
             break;
     }
 }
