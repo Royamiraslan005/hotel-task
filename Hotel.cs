@@ -6,38 +6,49 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp20
 {
-    internal class Hotel
+    internal class Hptel
     {
         public string Name { get; set; }
-        private Room[] Rooms;
+        private Room[] Rooms; 
 
-        public Hotel(string ad)
+        public Hotel(string name)
         {
-            Name=Name;
-            Rooms= new Room[0];
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Hotelin adı boş ola bilməz!");
+
+            Name = name;
+            Rooms = new Room[0]; 
         }
 
         public void AddRoom(Room room)
         {
+            Room[] newRooms = new Room[Rooms.Length + 1];
+
+            for (int i = 0; i < Rooms.Length; i++)
             {
-                Array.Resize(ref Rooms, Rooms.Length + 1);
-                Rooms[Rooms.Length - 1] = room;
-                Console.WriteLine($"Otaq {room.Id} elave olundu!");
+                newRooms[i] = Rooms[i];
             }
 
+            newRooms[Rooms.Length] = room;
+            Rooms = newRooms;
 
-        public void RezervEt(int roomID)
+            Console.WriteLine($"Otaq {room.Id} hotela əlavə olundu.");
+        }
+
+        public void MakeReservation(int roomId)
         {
-            bool tapildi = false;
-            foreach (Otaq otaq in Otaqlar)
+            bool found = false;
+
+            foreach (Room room in Rooms)
             {
-                if (otaq.ID == otaqID)
+                if (room.Id == roomId)
                 {
-                    tapildi = true;
-                    if (otaq.RezerveEdileBiler)
+                    found = true;
+
+                    if (room.IsAvailable)
                     {
-                        otaq.RezerveEdileBiler = false;
-                        Console.WriteLine($"Otaq {otaqID} uğurla rezerv edildi.");
+                        room.IsAvailable = false;
+                        Console.WriteLine($"Otaq {roomId} uğurla rezerv edildi.");
                     }
                     else
                     {
@@ -47,23 +58,23 @@ namespace ConsoleApp20
                 }
             }
 
-            if (!tapildi)
+            if (!found)
             {
                 Console.WriteLine("Səhv ID daxil etdiniz, belə bir otaq mövcud deyil!");
             }
         }
 
-        public void ButunOtaqlariGoster()
+        public void ShowAllRooms()
         {
-            if (Otaqlar.Length == 0)
+            if (Rooms.Length == 0)
             {
                 Console.WriteLine("Hazırda hoteldə heç bir otaq yoxdur.");
                 return;
             }
 
-            foreach (Otaq otaq in Otaqlar)
+            foreach (Room room in Rooms)
             {
-                otaq.MelumatGoster();
+                room.ShowInfo();
             }
         }
     }
